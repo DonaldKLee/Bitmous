@@ -1,0 +1,37 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    </head>
+    <body>
+        
+        <!-- Form -->
+        <form class="form" action="{{ url_for('submit_post') }}" method="post">
+            <h1>Bitmous</h1>
+            
+            <label for="fname">Alias:</label><br>
+            <input type="name" id="fname" name="code_name"><br></br>
+
+            <label for="content_form">Content:</label><br>
+            <textarea rows="4" cols="50" id="content_form" name="post_content"></textarea>
+
+            <br></br>
+
+            <input type="submit" value="Post">
+        </form> 
+        <!-- Form ^^^ -->
+
+        <section class="posts">
+        {% for post in post_data.all_posts %}
+            <div class="a_post">
+                <h3>Alias: {{ post.code_name }}</h3>
+                <p>Date Posted: {{ post.date_posted }}</p>
+                <p>{{ post.content }}</p>
+            </div>
+        {% endfor %}
+        </section>
+
+    </body>
+</html>
