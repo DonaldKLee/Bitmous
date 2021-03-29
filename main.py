@@ -1,10 +1,8 @@
 # Import Flask
 from flask import Flask, render_template, request, url_for, redirect
-import json
-from datetime import datetime
-from pytz import timezone, utc
+import json, os
 
-import os
+import datafunctions
 
 # Next up, we need to make a Flask app.
 # This will allow us to create routes, etc.
@@ -24,19 +22,11 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 # ^ ^ ^
 
-# Gets the current time in PST, to get the time, do print(get_pst_time())
-def get_pst_time():
-    date_format='%m-%d-%Y %H:%M:%S %Z'
-    date = datetime.now(tz=utc)
-    date = date.astimezone(timezone('US/Pacific'))
-    pstDateTime=date.strftime(date_format)
-    return pstDateTime
-
 @app.route('/submit_post', methods=['POST'])
 def submit_post():
     code_name = request.form['code_name']
     post_content = request.form['post_content']
-    post_date = get_pst_time()
+    post_date = datafunctions.get_pst_time()
 
     with open('posts.json', 'r') as file:
         all_posts = json.load(file)

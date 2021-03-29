@@ -3,6 +3,9 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!--Font Awesome-->
+        <script src="https://kit.fontawesome.com/ba7447c34f.js" crossorigin="anonymous"></script>
+
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     </head>
     <body>
@@ -11,15 +14,23 @@
         <form class="form" action="{{ url_for('submit_post') }}" method="post">
             <h1>Bitmous</h1>
             
-            <label for="fname">Alias:</label><br>
-            <input type="name" id="fname" name="code_name"><br></br>
+            <label for="alias_form">Alias:</label><br>
+            <input type="name" id="alias_form" name="code_name" oninput="posting()">
+            
+            <i id="alias_check" class="post_check_mark fas fa-check"></i>
+            <p id="alias_length">Characters: 0 | Min: 2 | Max: 15</p>
+            
+            <br></br>
 
             <label for="content_form">Content:</label><br>
-            <textarea rows="4" cols="50" id="content_form" name="post_content"></textarea>
+            <textarea rows="4" cols="50" id="content_form" name="post_content" oninput="posting()"></textarea>
+
+            <i id="content_check" class="post_check_mark fas fa-check"></i>
+            <p id="content_length">Characters: 0 | Min: 10 | Max: 150</p>
 
             <br></br>
 
-            <input type="submit" value="Post">
+            <input id="submit_button" type="submit" value="Post" disabled/>
         </form> 
         <!-- Form ^^^ -->
 
@@ -34,4 +45,7 @@
         </section>
 
     </body>
+
+    <script type=text/javascript src="{{ url_for('static', filename='javascript/home.js') }}"></script>
+
 </html>

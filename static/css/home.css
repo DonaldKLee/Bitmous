@@ -1,5 +1,5 @@
 .form {
-    left:10%;
+    left:5%;
     padding:10px;
     top: 200px;
     float: left;
@@ -17,4 +17,9 @@
     width: 60%;
     border: 2px solid black;
     border-radius: 20px;
+}
+.post_check_mark {
+    color: lightgrey;
+    margin-left:5px;
+    transition: 0.3s;
 }
