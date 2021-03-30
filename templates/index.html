@@ -6,6 +6,12 @@
         <!--Font Awesome-->
         <script src="https://kit.fontawesome.com/ba7447c34f.js" crossorigin="anonymous"></script>
 
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <!-- Bootstrap ^^^ -->
+
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     </head>
     <body>
@@ -36,14 +42,43 @@
 
         <section class="posts">
         {% for post in post_data.all_posts %}
-            <div class="a_post">
+            <button class="a_post" data-toggle="modal" data-target="#post{{ post.post_id }}">
+
+
                 <h3>Alias: {{ post.code_name }}</h3>
                 <p>Date Posted: {{ post.date_posted }}</p>
                 <p>{{ post.content }}</p>
-            </div>
+            </button>
+
         {% endfor %}
         </section>
 
+        {% for post in post_data.all_posts %}
+            
+            <!-- Modal -->
+            <div class="modal fade" id="post{{ post.post_id }}" role="dialog">
+                <div class="modal-dialog">
+                
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Alias: {{ post.code_name }}</h4>
+                        <p>Date Posted: {{ post.date_posted }}</p>
+
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ post.content }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        
+        {% endfor %}
+    
     </body>
 
     <script type=text/javascript src="{{ url_for('static', filename='javascript/home.js') }}"></script>

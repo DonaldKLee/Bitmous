@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, url_for, redirect
 import json, os
 
+# Python files
 import datafunctions
 
 # Next up, we need to make a Flask app.
@@ -31,19 +32,21 @@ def submit_post():
     with open('posts.json', 'r') as file:
         all_posts = json.load(file)
         posts = all_posts["all_posts"]
-    
+        post_id = all_posts["post_increments"]
+
+    all_posts["post_increments"] += 1
 
     this_post = {
         "code_name": code_name,
         "content": post_content,
-        "date_posted": post_date
+        "date_posted": post_date,
+        "post_id": post_id
     }
 
     posts.append(this_post)
 
     with open('posts.json', 'w') as file:
         json.dump(all_posts, file, indent=4)
-    
     file.close()
 
     return redirect(url_for('index'))
@@ -53,11 +56,9 @@ def submit_post():
 # Application routes
 @app.route("/") # / means index, it's the homepage.
 def index(): # You can name your function whatever you want.
-
     with open('posts.json', 'r') as file:
         all_posts = json.load(file)
         posts = all_posts["all_posts"]
-    
     file.close()
 
     return render_template("index.html", post_data=all_posts)
