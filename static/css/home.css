@@ -40,12 +40,6 @@
     text-align: left;
 }
 
-/*
-.a_post:nth-child(1n) {background: #FFFF88;}
-.a_post:nth-child(2n) {background: #ff7eb9;}
-.a_post:nth-child(3n) {background: #7afcff;}
-.a_post:nth-child(4n) {background: #52f769;}
-*/
 
 .post_modal {
     display:none;
@@ -55,4 +49,16 @@
     color: lightgrey;
     margin-left:5px;
     transition: 0.3s;
+}
+.comment_form {
+    left:5%;
+    padding:10px;
+}
+
+.all_comments {
+    left: 5%;
+    padding:10px;
+    height:250px;
+    padding:20px;
+    overflow:auto;
 }

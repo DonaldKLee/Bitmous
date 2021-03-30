@@ -76,6 +76,35 @@
                     <div class="modal-body">
                         <p>{{ post.content }}</p>
                     </div>
+                    
+                    <div class="all_comments">
+                        {% for comment in post.comments %}
+                            <h4>{{ comment.code_name }}</h4>
+                            <p>{{ comment.date_posted }}</p>
+                            <p>{{ comment.content }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Form -->
+                        <form class="comment_form" action="{{ url_for('submit_comment') }}" method="post">
+                            <h3>Comment</h3>
+
+                            <input style='display:none;' name="post_id" value="{{ post.post_id }}">
+
+                            <label>Alias:</label>
+                            <input type="name" name="code_name">
+
+                            <br>
+
+                            <label>Content:</label>
+                            <br>
+                            <textarea rows="4" cols="50" name="post_content"></textarea>
+
+                            <br>
+                            <input type="submit" value="Post"/>
+                        </form> 
+                        <!-- Form ^^^ -->
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>

@@ -42,7 +42,8 @@ def submit_post():
         "content": post_content,
         "date_posted": post_date,
         "post_id": post_id,
-        "colour": post_colour
+        "colour": post_colour,
+        "comments": []
     }
 
     posts.append(this_post)
@@ -54,6 +55,34 @@ def submit_post():
     return redirect(url_for('index'))
     #return render_template("index.html", post_data=all_posts)
 
+@app.route('/submit_comment', methods=['POST'])
+def submit_comment():
+    code_name = request.form['code_name']
+    post_content = request.form['post_content']
+    post_id = request.form['post_id']
+    post_date = datafunctions.get_pst_time()
+    
+    with open('posts.json', 'r') as file:
+        all_posts = json.load(file)
+        posts = all_posts["all_posts"]
+
+    comment = {
+        "code_name": code_name,
+        "content": post_content,
+        "date_posted": post_date,
+    }
+
+    for post in posts:
+        if str(post_id) == str(post["post_id"]):
+            post["comments"].append(comment)
+
+    with open('posts.json', 'w') as file:
+        json.dump(all_posts, file, indent=4)
+
+    file.close()
+
+
+    return redirect(url_for('index'))
 
 # Application routes
 @app.route("/") # / means index, it's the homepage.
