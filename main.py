@@ -28,6 +28,7 @@ def submit_post():
     code_name = request.form['code_name']
     post_content = request.form['post_content']
     post_date = datafunctions.get_pst_time()
+    post_colour = request.form['post_colours']
 
     with open('posts.json', 'r') as file:
         all_posts = json.load(file)
@@ -40,7 +41,8 @@ def submit_post():
         "code_name": code_name,
         "content": post_content,
         "date_posted": post_date,
-        "post_id": post_id
+        "post_id": post_id,
+        "colour": post_colour
     }
 
     posts.append(this_post)

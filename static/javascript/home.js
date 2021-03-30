@@ -10,7 +10,6 @@ function posting() {
      
 
     if (alias.value.length > 1 && alias.value.length < 16) { //When the Alias has more than 1 character
-        console.log("Yayy");
         alias_check.style.color = "lightgreen";
         alias_status = true;
     }
@@ -20,7 +19,6 @@ function posting() {
     }
     
     if (content_form.value.length > 9 && content_form.value.length < 151) {
-        console.log("Suffcient Post");
         content_check.style.color = "lightgreen";
         content_status = true;
     }

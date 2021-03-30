@@ -26,7 +26,7 @@
             <i id="alias_check" class="post_check_mark fas fa-check"></i>
             <p id="alias_length">Characters: 0 | Min: 2 | Max: 15</p>
             
-            <br></br>
+            <br>
 
             <label for="content_form">Content:</label><br>
             <textarea rows="4" cols="50" id="content_form" name="post_content" oninput="posting()"></textarea>
@@ -34,15 +34,21 @@
             <i id="content_check" class="post_check_mark fas fa-check"></i>
             <p id="content_length">Characters: 0 | Min: 10 | Max: 150</p>
 
-            <br></br>
+            <br>
 
+            <input class="post_colours" type="radio" name="post_colours" value="#FFFF88"> Yellow </input><br>
+            <input class="post_colours" type="radio" name="post_colours" value="#ff7eb9"> Pink </input><br>
+            <input class="post_colours" type="radio" name="post_colours" value="#7afcff"> Light blue </input><br>
+            <input class="post_colours" type="radio" name="post_colours" value="#52f769"> Green </input><br>
+
+            <br>
             <input id="submit_button" type="submit" value="Post" disabled/>
         </form> 
         <!-- Form ^^^ -->
 
         <section class="posts">
-        {% for post in post_data.all_posts %}
-            <button class="a_post" data-toggle="modal" data-target="#post{{ post.post_id }}">
+        {% for post in post_data.all_posts|reverse %}
+            <button class="a_post" style="background:{{ post.colour }};" data-toggle="modal" data-target="#post{{ post.post_id }}">
 
 
                 <h3>Alias: {{ post.code_name }}</h3>

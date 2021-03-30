@@ -9,7 +9,9 @@
     width: auto;
     overflow: hidden;
 }
-
+.post_colours {
+    color:#52f769;
+}
 
 .posts {
     /*float:right;
@@ -38,10 +40,12 @@
     text-align: left;
 }
 
+/*
 .a_post:nth-child(1n) {background: #FFFF88;}
 .a_post:nth-child(2n) {background: #ff7eb9;}
 .a_post:nth-child(3n) {background: #7afcff;}
 .a_post:nth-child(4n) {background: #52f769;}
+*/
 
 .post_modal {
     display:none;

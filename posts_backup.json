@@ -1,101 +1,187 @@
 {
-    "post_increments": 16,
+    "post_increments": 26,
     "all_posts": [
         {
             "code_name": "Spy",
             "content": "Bongaaaa",
             "date_posted": "03-28-2021 23:42:51 PDT",
-            "post_id": 0
+            "post_id": 0,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Ayo",
             "content": "Halfjfkw",
             "date_posted": "03-28-2021 23:44:11 PDT",
-            "post_id": 1
+            "post_id": 1,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Melons",
             "content": "Melons are cool at MLH!",
             "date_posted": "03-29-2021 00:03:49 PDT",
-            "post_id": 2
+            "post_id": 2,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Share",
             "content": "Sharing is caring! Have a great day!",
             "date_posted": "03-29-2021 00:04:29 PDT",
-            "post_id": 3
+            "post_id": 3,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "donald",
             "content": "s",
             "date_posted": "03-29-2021 00:10:28 PDT",
-            "post_id": 4
+            "post_id": 4,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "DonBot",
             "content": "Hope you are having a great day!",
             "date_posted": "03-29-2021 00:25:17 PDT",
-            "post_id": 5
+            "post_id": 5,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Spy",
             "content": "Donald is really cool!",
             "date_posted": "03-29-2021 14:40:12 PDT",
-            "post_id": 6
+            "post_id": 6,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Bunga",
             "content": "MLH is cool!",
             "date_posted": "03-29-2021 14:40:37 PDT",
-            "post_id": 7
+            "post_id": 7,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Omae wa",
             "content": "mou shindeiru\r\n",
             "date_posted": "03-29-2021 15:10:15 PDT",
-            "post_id": 8
+            "post_id": 8,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Ice",
             "content": "Ice is cool!",
             "date_posted": "03-29-2021 15:12:55 PDT",
-            "post_id": 9
+            "post_id": 9,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "DonBot",
             "content": "Bots are cool!",
             "date_posted": "03-29-2021 16:58:26 PDT",
-            "post_id": 10
+            "post_id": 10,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Alien",
             "content": "We are out there!",
             "date_posted": "03-29-2021 17:00:25 PDT",
-            "post_id": 11
+            "post_id": 11,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Spy",
             "content": "ssssssssssssssss",
             "date_posted": "03-29-2021 17:03:06 PDT",
-            "post_id": 12
+            "post_id": 12,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "ssd",
             "content": "fffffffffff",
             "date_posted": "03-29-2021 17:03:23 PDT",
-            "post_id": 13
+            "post_id": 13,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "Spy",
             "content": "Modals work!",
             "date_posted": "03-29-2021 18:03:43 PDT",
-            "post_id": 14
+            "post_id": 14,
+            "colour": "#FFFF88"
         },
         {
             "code_name": "DonBot",
             "content": "AHAHAHAHAHAH",
             "date_posted": "03-29-2021 18:04:17 PDT",
-            "post_id": 15
+            "post_id": 15,
+            "colour": "#FFFF88"
+        },
+        {
+            "code_name": "Air",
+            "content": "Hahajxjssnsjj",
+            "date_posted": "03-29-2021 18:11:22 PDT",
+            "post_id": 16,
+            "colour": "#FFFF88"
+        },
+        {
+            "code_name": "Hahah jk",
+            "content": "Do you ever wonder why you suddenly get into depressive moods?",
+            "date_posted": "03-29-2021 18:17:10 PDT",
+            "post_id": 17,
+            "colour": "#FFFF88"
+        },
+        {
+            "code_name": "I once dreamt",
+            "content": "I got super high like a kite",
+            "date_posted": "03-29-2021 18:17:41 PDT",
+            "post_id": 18,
+            "colour": "#FFFF88"
+        },
+        {
+            "code_name": "bingus",
+            "content": "bingus is a better cat than floppa",
+            "date_posted": "03-29-2021 18:58:03 PDT",
+            "post_id": 19,
+            "colour": "#FFFF88"
+        },
+        {
+            "code_name": "Bunga",
+            "content": "Sharks are blue",
+            "date_posted": "03-29-2021 19:24:38 PDT",
+            "post_id": 20,
+            "colour": "#FFFF88"
+        },
+        {
+            "code_name": "Sharksss",
+            "content": "SSSSSSSSSSSSSSSSSSSSS",
+            "date_posted": "03-29-2021 22:05:35 PDT",
+            "post_id": 21,
+            "colour": "#FFFF88"
+        },
+        {
+            "code_name": "Colourssssss",
+            "content": "First selected coloured post!",
+            "date_posted": "03-29-2021 22:16:15 PDT",
+            "post_id": 22,
+            "colour": "#7afcff"
+        },
+        {
+            "code_name": "ssss",
+            "content": "sssssddddddddddddd",
+            "date_posted": "03-29-2021 22:19:16 PDT",
+            "post_id": 23,
+            "colour": "#52f769"
+        },
+        {
+            "code_name": "Pink",
+            "content": "I am the first pink post!",
+            "date_posted": "03-29-2021 22:20:33 PDT",
+            "post_id": 24,
+            "colour": "#ff7eb9"
+        },
+        {
+            "code_name": "Piss",
+            "content": "This colour is so bright like god dayum",
+            "date_posted": "03-29-2021 22:20:35 PDT",
+            "post_id": 25,
+            "colour": "#FFFF88"
         }
     ]
 }
