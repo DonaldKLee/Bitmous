@@ -38,8 +38,11 @@
     transition: 0.3s;
     outline: none;
     text-align: left;
+    overflow:hidden;
 }
-
+.a_post:hover {
+    transform: scale(1.1);
+}
 
 .post_modal {
     display:none;
@@ -50,6 +53,13 @@
     margin-left:5px;
     transition: 0.3s;
 }
+
+.modal_post_container {
+    position: relative;
+    padding: 20px;
+  
+}
+
 .comment_form {
     left:5%;
     padding:10px;
@@ -57,8 +67,22 @@
 
 .all_comments {
     left: 5%;
-    padding:10px;
     height:250px;
     padding:20px;
-    overflow:auto;
+    overflow-y: auto;
+    border-top: 1.5px solid black;
+    border-bottom: 1.5px solid black;
+}
+
+.modal_alias {
+    font-weight: bold;
+    font-size: 1.3em;
+    overflow: hidden;
+}
+.modal_comment {
+    font-size: 1.2em;
+    overflow: hidden;
+}
+.modal_date {
+    font-size: 0.8em;
 }

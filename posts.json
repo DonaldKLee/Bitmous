@@ -1,126 +1,61 @@
 {
-    "post_increments": 34,
+    "post_increments": 65,
     "all_posts": [
         {
-            "code_name": "Pink",
-            "content": "I am the first pink post!",
-            "date_posted": "03-29-2021 22:20:33 PDT",
-            "post_id": 24,
-            "colour": "#ff7eb9",
-            "comments": [
-                {
-                    "code_name": "ddd",
-                    "content": "ffff",
-                    "date_posted": "03-29-2021 23:02:51 PDT"
-                }
-            ]
-        },
-        {
-            "code_name": "Piss",
-            "content": "This colour is so bright like god dayum",
-            "date_posted": "03-29-2021 22:20:35 PDT",
-            "post_id": 25,
-            "colour": "#FFFF88",
-            "comments": []
-        },
-        {
-            "code_name": "H2O",
-            "content": "Stay hydrated y'all!",
-            "date_posted": "03-29-2021 22:29:17 PDT",
-            "post_id": 26,
-            "colour": "#7afcff",
-            "comments": [
-                {
-                    "code_name": "Spy",
-                    "content": "SSSSS",
-                    "date_posted": "03-29-2021 22:59:49 PDT"
-                }
-            ]
-        },
-        {
             "code_name": "DonBot",
-            "content": "Global warming is real :)",
-            "date_posted": "03-29-2021 23:08:14 PDT",
-            "post_id": 27,
-            "colour": "#52f769",
-            "comments": []
-        },
-        {
-            "code_name": "Juju",
-            "content": "Why does Canada always aid America in battles that aren\u2019t theirs?",
-            "date_posted": "03-29-2021 23:08:48 PDT",
-            "post_id": 28,
-            "colour": "#52f769",
-            "comments": [
-                {
-                    "code_name": "Billy",
-                    "content": "Because they are neighbours, and that's what neighbours are for!",
-                    "date_posted": "03-29-2021 23:12:29 PDT"
-                },
-                {
-                    "code_name": "Senpai",
-                    "content": "Canada and America are both are part of NATO- and Canada is the closest one to be able to aid them. Like Joe Biden has once said, \u201cAmerica is like the big brother of Canada. We\u2019re the loud and troublesome brother that they just deal with.\u201d",
-                    "date_posted": "03-29-2021 23:15:52 PDT"
-                }
-            ]
-        },
-        {
-            "code_name": "Jesus Christ",
-            "content": "Holy Water.",
-            "date_posted": "03-29-2021 23:09:18 PDT",
-            "post_id": 29,
+            "content": "This is the first post in Bitmous! - Donald Lee",
+            "date_posted": "04-04-2021 01:34:13 PDT",
+            "post_id": 56,
             "colour": "#7afcff",
             "comments": []
         },
         {
-            "code_name": "Ginger Fox",
-            "content": "Do you ever think about the fact that we will all die alone? ",
-            "date_posted": "03-29-2021 23:10:10 PDT",
-            "post_id": 30,
+            "code_name": "Tree",
+            "content": "Climate change is real!",
+            "date_posted": "04-04-2021 01:34:50 PDT",
+            "post_id": 57,
+            "colour": "#52f769",
+            "comments": []
+        },
+        {
+            "code_name": "Supporter",
+            "content": "Stop Asian hate crimes!",
+            "date_posted": "04-04-2021 01:35:44 PDT",
+            "post_id": 58,
+            "colour": "#FFFF88",
+            "comments": []
+        },
+        {
+            "code_name": "Supporter",
+            "content": "Black Lives Matter!",
+            "date_posted": "04-04-2021 01:35:58 PDT",
+            "post_id": 59,
             "colour": "#ff7eb9",
-            "comments": [
-                {
-                    "code_name": "Spencer Shay",
-                    "content": "All the time.",
-                    "date_posted": "03-29-2021 23:17:19 PDT"
-                }
-            ]
-        },
-        {
-            "code_name": "History Major",
-            "content": "Dude I\u2019m gonna fight corona like how North Italy declared war over a bucket.",
-            "date_posted": "03-29-2021 23:11:15 PDT",
-            "post_id": 31,
-            "colour": "#FFFF88",
-            "comments": [
-                {
-                    "code_name": "Jason",
-                    "content": "what now?",
-                    "date_posted": "03-29-2021 23:18:13 PDT"
-                }
-            ]
-        },
-        {
-            "code_name": "Anonymous",
-            "content": "Black lives matter! ",
-            "date_posted": "03-29-2021 23:14:27 PDT",
-            "post_id": 32,
-            "colour": "#7afcff",
             "comments": []
         },
         {
-            "code_name": "Anonymous",
-            "content": "Stop Asian hate!",
-            "date_posted": "03-29-2021 23:14:46 PDT",
-            "post_id": 33,
-            "colour": "#FFFF88",
-            "comments": [
-                {
-                    "code_name": "Citizen",
-                    "content": "Stop Asian hate!!!!",
-                    "date_posted": "03-29-2021 23:18:35 PDT"
-                }
-            ]
+            "code_name": "Fruit",
+            "content": "Orange juice is pretty sour...",
+            "date_posted": "04-04-2021 01:36:18 PDT",
+            "post_id": 60,
+            "colour": "#FFA500",
+            "comments": []
+        },
+        {
+            "code_name": "Flower",
+            "content": "Lavender is a pretty cool colour!",
+            "date_posted": "04-04-2021 01:36:32 PDT",
+            "post_id": 61,
+            "colour": "#E6E6FA",
+            "comments": []
+        },
+        {
+            "code_name": "Dog",
+            "content": "Animals are cool!",
+            "date_posted": "04-04-2021 01:43:04 PDT",
+            "post_id": 64,
+            "colour": "#52f769",
+            "comments": []
         }
     ]
 }

@@ -16,23 +16,42 @@
     </head>
     <body>
         
+        
+
+   
+        {% for mess in get_flashed_messages()  %}
+            <h1>{{ mess }}</h1>
+        {% endfor %}
+
+
+
+
+
         <!-- Form -->
-        <form class="form" action="{{ url_for('submit_post') }}" method="post">
+        <form class="form" action="/submit" method="post">
             <h1>Bitmous</h1>
-            
-            <label for="alias_form">Alias:</label><br>
-            <input type="name" id="alias_form" name="code_name" oninput="posting()">
+
+            {{ form.csrf_token }}
+
+            <label>Alias:</label><br>
+            {{ form.post_alias(placeholder="Spy", type="name", id="alias_form", oninput="posting()") }}
             
             <i id="alias_check" class="post_check_mark fas fa-check"></i>
             <p id="alias_length">Characters: 0 | Min: 2 | Max: 15</p>
-            
             <br>
 
-            <label for="content_form">Content:</label><br>
-            <textarea rows="4" cols="50" id="content_form" name="post_content" oninput="posting()"></textarea>
-
+            <label>Content:</label><br>
+            {{ form.post_content(placeholder="Stay humble y'all!", id="content_form", oninput="posting()") }}
+            
             <i id="content_check" class="post_check_mark fas fa-check"></i>
             <p id="content_length">Characters: 0 | Min: 10 | Max: 150</p>
+            
+            <ul>
+            {% for error in form.post_alias.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+
 
             <br>
 
@@ -40,6 +59,8 @@
             <input class="post_colours" type="radio" name="post_colours" value="#ff7eb9"> Pink </input><br>
             <input class="post_colours" type="radio" name="post_colours" value="#7afcff"> Light blue </input><br>
             <input class="post_colours" type="radio" name="post_colours" value="#52f769"> Green </input><br>
+            <input class="post_colours" type="radio" name="post_colours" value="#E6E6FA"> Lavender </input><br>
+            <input class="post_colours" type="radio" name="post_colours" value="#FFA500"> Orange </input><br>
 
             <br>
             <input id="submit_button" type="submit" value="Post" disabled/>
@@ -52,8 +73,9 @@
 
 
                 <h3>Alias: {{ post.code_name }}</h3>
-                <p>Date Posted: {{ post.date_posted }}</p>
                 <p>{{ post.content }}</p>
+                <p>Date Posted: {{ post.date_posted }}</p>
+                <p>{{ post.comments|length }} comments</p>
             </button>
 
         {% endfor %}
@@ -66,23 +88,29 @@
                 <div class="modal-dialog">
                 
                 <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
+                <div class="modal-content" style="background:{{ post.colour }};">
+                   
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Alias: {{ post.code_name }}</h4>
-                        <p>Date Posted: {{ post.date_posted }}</p>
 
-                    </div>
-                    <div class="modal-body">
-                        <p>{{ post.content }}</p>
-                    </div>
+                        <div class="modal_post_container">
+                            <p class="modal_alias">Alias: {{ post.code_name }}</p>
+                            <p class="modal_comment">{{ post.content }}</p>
+                            <p class="modal_date">Date Posted: {{ post.date_posted }}</p>
+                        </div>
+                    
                     
                     <div class="all_comments">
-                        {% for comment in post.comments %}
-                            <h4>{{ comment.code_name }}</h4>
-                            <p>{{ comment.date_posted }}</p>
-                            <p>{{ comment.content }}</p>
-                        {% endfor %}
+                        {% if not post.comments  %}
+                            <h4>Looks like this post has no comments yet!</h4>
+                            <p>Why not be the first to comment?</p>
+                        {% else %}
+
+                            {% for comment in post.comments %}
+                                <p class="modal_alias">Alias: {{ comment.code_name }}</p>
+                                <p class="modal_comment">{{ comment.content }}</p>
+                                <p class="modal_date">Date Posted: {{ comment.date_posted }}</p>
+                            {% endfor %}
+                        {% endif %}
                     </div>
 
                     <!-- Form -->
@@ -92,13 +120,13 @@
                             <input style='display:none;' name="post_id" value="{{ post.post_id }}">
 
                             <label>Alias:</label>
-                            <input type="name" name="code_name">
+                            <input placeholder="Penguin" type="name" name="code_name">
 
                             <br>
 
                             <label>Content:</label>
                             <br>
-                            <textarea rows="4" cols="50" name="post_content"></textarea>
+                            <textarea placeholder="You are awesome!" rows="4" cols="50" name="post_content"></textarea>
 
                             <br>
                             <input type="submit" value="Post"/>

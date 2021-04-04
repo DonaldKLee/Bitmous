@@ -1,6 +1,10 @@
 # Import Flask
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, flash
 import json, os
+
+from flask_wtf import FlaskForm
+from wtforms import StringField, validators, TextAreaField
+from wtforms.validators import DataRequired, Length, InputRequired
 
 # Python files
 import datafunctions
@@ -23,37 +27,55 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 # ^ ^ ^
 
-@app.route('/submit_post', methods=['POST'])
-def submit_post():
-    code_name = request.form['code_name']
-    post_content = request.form['post_content']
-    post_date = datafunctions.get_pst_time()
-    post_colour = request.form['post_colours']
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 
+class post_form(FlaskForm):
+    post_alias = StringField('',[validators.Length(min=2, max=15, message="Must be between 2-15 characters!")])
+    post_content = TextAreaField('',[validators.Length(min=10, max=150, message="Must be between 10-150 characters!")],render_kw={"rows": 4, "cols": 50})
+
+@app.route('/submit', methods=['GET', 'POST'])
+def submit():
     with open('posts.json', 'r') as file:
         all_posts = json.load(file)
-        posts = all_posts["all_posts"]
-        post_id = all_posts["post_increments"]
 
-    all_posts["post_increments"] += 1
+    form = post_form()
 
-    this_post = {
-        "code_name": code_name,
-        "content": post_content,
-        "date_posted": post_date,
-        "post_id": post_id,
-        "colour": post_colour,
-        "comments": []
-    }
+    if form.validate_on_submit():
+        code_name = form.post_alias.data.strip(" ")
+        post_content = form.post_content.data.strip(" ")
+        post_date = datafunctions.get_pst_time()
+        post_colour = request.form['post_colours']
 
-    posts.append(this_post)
+        with open('posts.json', 'r') as file:
+            all_posts = json.load(file)
+            posts = all_posts["all_posts"]
+            post_id = all_posts["post_increments"]
 
-    with open('posts.json', 'w') as file:
-        json.dump(all_posts, file, indent=4)
-    file.close()
+        file.close()
 
-    return redirect(url_for('index'))
-    #return render_template("index.html", post_data=all_posts)
+        all_posts["post_increments"] += 1
+
+        this_post = {
+            "code_name": code_name,
+            "content": post_content,
+            "date_posted": post_date,
+            "post_id": post_id,
+            "colour": post_colour,
+            "comments": []
+        }
+
+        posts.append(this_post)
+
+        with open('posts.json', 'w') as file:
+            json.dump(all_posts, file, indent=4)
+        file.close()
+
+        flash(f"You just changed your name to: { code_name }, you posted { post_content }")
+        return redirect(url_for('index'))
+
+    return render_template("index.html", post_data=all_posts, form=form)
+
 
 @app.route('/submit_comment', methods=['POST'])
 def submit_comment():
@@ -66,6 +88,8 @@ def submit_comment():
         all_posts = json.load(file)
         posts = all_posts["all_posts"]
 
+    file.close()
+    
     comment = {
         "code_name": code_name,
         "content": post_content,
@@ -92,7 +116,7 @@ def index(): # You can name your function whatever you want.
         posts = all_posts["all_posts"]
     file.close()
 
-    return render_template("index.html", post_data=all_posts)
+    return render_template("index.html", post_data=all_posts, form=post_form())
 
 
 
