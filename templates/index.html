@@ -34,33 +34,31 @@
             {{ form.csrf_token }}
 
             <label>Alias:</label><br>
-            {{ form.post_alias(placeholder="Spy", type="name", id="alias_form", oninput="posting()") }}
+            {{ form.post_alias(placeholder="Spy", label="Hi", type="name", id="alias_form", oninput="posting()") }}
             
             <i id="alias_check" class="post_check_mark fas fa-check"></i>
             <p id="alias_length">Characters: 0 | Min: 2 | Max: 15</p>
-            <br>
 
+            {% for error in form.post_alias.errors %}
+                <li class="errors">{{ error }}</li>
+            {% endfor %}
+
+            </br>
             <label>Content:</label><br>
-            {{ form.post_content(placeholder="Stay humble y'all!", id="content_form", oninput="posting()") }}
+            {{ form.post_content(placeholder="Stay humble y'all!",label="Hi", id="content_form", oninput="posting()") }}
             
             <i id="content_check" class="post_check_mark fas fa-check"></i>
             <p id="content_length">Characters: 0 | Min: 10 | Max: 150</p>
             
             <ul>
-            {% for error in form.post_alias.errors %}
-                <li>{{ error }}</li>
+            {% for error in form.post_content.errors %}
+                <li class="errors">{{ error }}</li>
             {% endfor %}
             </ul>
-
-
+            
             <br>
 
-            <input class="post_colours" type="radio" name="post_colours" value="#FFFF88"> Yellow </input><br>
-            <input class="post_colours" type="radio" name="post_colours" value="#ff7eb9"> Pink </input><br>
-            <input class="post_colours" type="radio" name="post_colours" value="#7afcff"> Light blue </input><br>
-            <input class="post_colours" type="radio" name="post_colours" value="#52f769"> Green </input><br>
-            <input class="post_colours" type="radio" name="post_colours" value="#E6E6FA"> Lavender </input><br>
-            <input class="post_colours" type="radio" name="post_colours" value="#FFA500"> Orange </input><br>
+            {{ form.colours(class="radio_colours") }}
 
             <br>
             <input id="submit_button" type="submit" value="Post" disabled/>

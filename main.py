@@ -3,8 +3,10 @@ from flask import Flask, render_template, request, url_for, redirect, flash
 import json, os
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, TextAreaField
+from wtforms import StringField, validators, TextAreaField, RadioField, ValidationError
 from wtforms.validators import DataRequired, Length, InputRequired
+
+from better_profanity import profanity
 
 # Python files
 import datafunctions
@@ -30,22 +32,33 @@ def dated_url_for(endpoint, **values):
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+def profanity_check(form, field):
+    if profanity.contains_profanity(field.data):
+        raise ValidationError("Profanity was detected in your " + str(field.label) + "!")
+
+
 class post_form(FlaskForm):
-    post_alias = StringField('',[validators.Length(min=2, max=15, message="Must be between 2-15 characters!")])
-    post_content = TextAreaField('',[validators.Length(min=10, max=150, message="Must be between 10-150 characters!")],render_kw={"rows": 4, "cols": 50})
+    post_alias = StringField('alias',[validators.Length(min=2, max=15, message="Must be between 2-15 characters!"), profanity_check])
+    post_content = TextAreaField('post',[validators.Length(min=10, max=150, message="Must be between 10-150 characters!"), profanity_check],render_kw={"rows": 4, "cols": 50})
+    colours = RadioField('', choices=[('#FFFF88','Yellow'),('#ff7eb9','Pink'),('#7afcff', 'Light blue'),('#52f769','Green'),('#E6E6FA','Lavender'),('#FFA500','Orange')], validators=[InputRequired()])
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     with open('posts.json', 'r') as file:
         all_posts = json.load(file)
 
-    form = post_form()
+    form = post_form() 
+    
+
+
+    code_name = profanity.censor(form.post_alias.data.strip(" "))
+    post_content = profanity.censor(form.post_content.data.strip(" "))
 
     if form.validate_on_submit():
-        code_name = form.post_alias.data.strip(" ")
-        post_content = form.post_content.data.strip(" ")
+        code_name = code_name
+        post_content = post_content
         post_date = datafunctions.get_pst_time()
-        post_colour = request.form['post_colours']
+        post_colour = form.colours.data
 
         with open('posts.json', 'r') as file:
             all_posts = json.load(file)

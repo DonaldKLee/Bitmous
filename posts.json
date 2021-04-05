@@ -1,5 +1,5 @@
 {
-    "post_increments": 65,
+    "post_increments": 66,
     "all_posts": [
         {
             "code_name": "DonBot",
@@ -56,6 +56,20 @@
             "post_id": 64,
             "colour": "#52f769",
             "comments": []
+        },
+        {
+            "code_name": "Laptop",
+            "content": "Coding is fun!",
+            "date_posted": "04-04-2021 21:33:05 PDT",
+            "post_id": 65,
+            "colour": "#7afcff",
+            "comments": [
+                {
+                    "code_name": "Keyboard",
+                    "content": "Ouch!",
+                    "date_posted": "04-04-2021 21:33:40 PDT"
+                }
+            ]
         }
     ]
 }

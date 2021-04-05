@@ -1,5 +1,13 @@
 [[package]]
 category = "main"
+description = "Blazingly fast cleaning swear words (and their leetspeak) in strings"
+name = "better-profanity"
+optional = false
+python-versions = "==3.*"
+version = "0.7.0"
+
+[[package]]
+category = "main"
 description = "Composable command line interface toolkit"
 name = "click"
 optional = false
@@ -105,10 +113,14 @@ ipaddress = ["ipaddress"]
 locale = ["Babel (>=1.3)"]
 
 [metadata]
-content-hash = "f26eef245222703c9a9fec1e68063f86048fa58cf911159d3cac28ee8d851b8c"
+content-hash = "2a458317d5e65ec2562ea4d58244c9b95a6bd4bc48582a707eb6f219e0c98139"
 python-versions = "^3.8"
 
 [metadata.files]
+better-profanity = [
+    {file = "better_profanity-0.7.0-py3-none-any.whl", hash = "sha256:bd4c529ea6aa2db1aaa50524be1ed14d0fe5c664f1fd88c8bc388c7e9f9f00e8"},
+    {file = "better_profanity-0.7.0.tar.gz", hash = "sha256:8a6fdc8606d7471e7b5f6801917eca98ec211098262e82f62da4f5de3a73145b"},
+]
 click = [
     {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
     {file = "click-7.1.2.tar.gz", hash = "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"},
