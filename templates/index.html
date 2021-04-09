@@ -15,16 +15,10 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     </head>
     <body>
-        
-        
-
-   
+    
         {% for mess in get_flashed_messages()  %}
             <h1>{{ mess }}</h1>
         {% endfor %}
-
-
-
 
 
         <!-- Form -->
@@ -67,14 +61,14 @@
 
         <section class="posts">
         {% for post in post_data.all_posts|reverse %}
-            <button class="a_post" style="background:{{ post.colour }};" data-toggle="modal" data-target="#post{{ post.post_id }}">
+            <a class="stickynote_button_link" href="#post{{ post.post_id }}"><button class="a_post" style="background:{{ post.colour }};" data-toggle="modal" data-target="#post{{ post.post_id }}">
 
 
                 <h3>Alias: {{ post.code_name }}</h3>
                 <p>{{ post.content }}</p>
                 <p>Date Posted: {{ post.date_posted }}</p>
                 <p>{{ post.comments|length }} comments</p>
-            </button>
+            </button></a>
 
         {% endfor %}
         </section>
@@ -82,6 +76,7 @@
         {% for post in post_data.all_posts %}
             
             <!-- Modal -->
+            
             <div class="modal fade" id="post{{ post.post_id }}" role="dialog">
                 <div class="modal-dialog">
                 
@@ -111,25 +106,30 @@
                         {% endif %}
                     </div>
 
-                    <!-- Form -->
-                        <form class="comment_form" action="{{ url_for('submit_comment') }}" method="post">
-                            <h3>Comment</h3>
+                    <form class="form" action="/comment" method="post">
+                        {{ comment.csrf_token }}
+                        <label>Alias:</label><br>
+                        {{ comment.comment_alias(placeholder="Penguin", type="name") }}
 
-                            <input style='display:none;' name="post_id" value="{{ post.post_id }}">
+                        {% for error in comment.comment_alias.errors %}
+                            <li class="errors">{{ error }}</li>
+                        {% endfor %}
 
-                            <label>Alias:</label>
-                            <input placeholder="Penguin" type="name" name="code_name">
+                        </br>
 
-                            <br>
+                        <label>Content:</label><br>
+                        {{ comment.comment_content(placeholder="You are awesome!") }}
 
-                            <label>Content:</label>
-                            <br>
-                            <textarea placeholder="You are awesome!" rows="4" cols="50" name="post_content"></textarea>
+                        <ul>
+                        {% for error in comment.comment_content.errors %}
+                            <li class="errors">{{ error }}</li>
+                        {% endfor %}
+                        </ul>
 
-                            <br>
-                            <input type="submit" value="Post"/>
-                        </form> 
-                        <!-- Form ^^^ -->
+                    <input id="submit_button" type="submit" value="Post"/>
+                    {{ comment.post_id(value=post.post_id, style='display:none;') }}
+                    </form>
+
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -142,6 +142,19 @@
     
     </body>
 
+
+    <script> // Checks if the hash is empty, if it is, ignore, else, use the hash from the failed comment submission
+        function jump(post_id){
+            location.href = "#post" + post_id;  //Go to the target element. 
+        }
+        $(function(){
+        if(window.location.hash.length === 0) {
+            jump({{ anchor }});
+            }
+        });
+    </script>
+
     <script type=text/javascript src="{{ url_for('static', filename='javascript/home.js') }}"></script>
+
 
 </html>

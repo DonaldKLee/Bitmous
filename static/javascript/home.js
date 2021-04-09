@@ -1,6 +1,20 @@
-window.onload = function() {
+window.onload = function() { //Runs posting again if user form does not submit. This makes it so that the green checkmarks validate again
   posting();
+  //window.location.href = "#posts"; //Adds #posts at the end of the url
 };
+
+      
+$(function(){
+    if(window.location.hash) {
+        hash = window.location.hash;
+        $(hash).modal('toggle');
+    }
+});
+   
+$('body').on('hidden.bs.modal', function () {
+    window.location.href = "#posts";
+});
+
 
 function posting() {
     post = document.getElementById("submit_button");

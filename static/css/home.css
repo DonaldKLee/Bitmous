@@ -23,6 +23,10 @@
     margin-bottom: 200px;
 }
 
+/* Will not need if colour is added later on to the post texts */
+.stickynote_button_link {color:black;}
+.stickynote_button_link:hover {color:black;}
+/* ^^^ */
 
 .a_post {
     position: relative;

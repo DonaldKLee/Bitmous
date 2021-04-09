@@ -42,14 +42,17 @@ class post_form(FlaskForm):
     post_content = TextAreaField('post',[validators.Length(min=10, max=150, message="Must be between 10-150 characters!"), profanity_check],render_kw={"rows": 4, "cols": 50})
     colours = RadioField('', choices=[('#FFFF88','Yellow'),('#ff7eb9','Pink'),('#7afcff', 'Light blue'),('#52f769','Green'),('#E6E6FA','Lavender'),('#FFA500','Orange')], validators=[InputRequired()])
 
+class comment_form(FlaskForm):
+    comment_alias = StringField('alias',[validators.Length(min=2, max=15, message="Must be between 2-15 characters!"), profanity_check])
+    comment_content = TextAreaField('post',[validators.Length(min=10, max=150, message="Must be between 10-150 characters!"), profanity_check],render_kw={"rows": 4, "cols": 50})
+    post_id = StringField('id', validators=[InputRequired()])
+
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
     with open('posts.json', 'r') as file:
         all_posts = json.load(file)
-
+    file.close()
     form = post_form() 
-    
-
 
     code_name = profanity.censor(form.post_alias.data.strip(" "))
     post_content = profanity.censor(form.post_content.data.strip(" "))
@@ -59,16 +62,13 @@ def submit():
         post_content = post_content
         post_date = datafunctions.get_pst_time()
         post_colour = form.colours.data
-
         with open('posts.json', 'r') as file:
             all_posts = json.load(file)
             posts = all_posts["all_posts"]
             post_id = all_posts["post_increments"]
-
         file.close()
 
         all_posts["post_increments"] += 1
-
         this_post = {
             "code_name": code_name,
             "content": post_content,
@@ -79,7 +79,6 @@ def submit():
         }
 
         posts.append(this_post)
-
         with open('posts.json', 'w') as file:
             json.dump(all_posts, file, indent=4)
         file.close()
@@ -87,39 +86,45 @@ def submit():
         flash(f"You just changed your name to: { code_name }, you posted { post_content }")
         return redirect(url_for('index'))
 
-    return render_template("index.html", post_data=all_posts, form=form)
+    return render_template("index.html", post_data=all_posts, form=form, comment=comment_form())
 
-
-@app.route('/submit_comment', methods=['POST'])
-def submit_comment():
-    code_name = request.form['code_name']
-    post_content = request.form['post_content']
-    post_id = request.form['post_id']
-    post_date = datafunctions.get_pst_time()
-    
+@app.route('/comment', methods=['GET','POST'])
+def post_comment():
     with open('posts.json', 'r') as file:
         all_posts = json.load(file)
         posts = all_posts["all_posts"]
 
     file.close()
+
+    form = comment_form()
     
-    comment = {
-        "code_name": code_name,
-        "content": post_content,
-        "date_posted": post_date,
-    }
+    if form.validate_on_submit():
+        code_name = profanity.censor(form.comment_alias.data.strip(" "))
+        post_content = profanity.censor(form.comment_content.data.strip(" "))
+        post_date = datafunctions.get_pst_time()
 
-    for post in posts:
-        if str(post_id) == str(post["post_id"]):
-            post["comments"].append(comment)
+        post_id = form.post_id.data
 
-    with open('posts.json', 'w') as file:
-        json.dump(all_posts, file, indent=4)
+        comment = {
+            "code_name": code_name,
+            "content": post_content,
+            "date_posted": post_date,
+        }
 
-    file.close()
+        for post in posts:
+            if str(post_id) == str(post["post_id"]):
+                post["comments"].append(comment)
 
+        with open('posts.json', 'w') as file:
+            json.dump(all_posts, file, indent=4)
 
-    return redirect(url_for('index'))
+        file.close()
+        
+        return redirect(url_for('index') + "#post" + post_id)
+    
+    else:
+        post_id = form.post_id.data
+        return render_template("index.html", anchor=post_id, post_data=all_posts, form=post_form(), comment=comment_form())
 
 # Application routes
 @app.route("/") # / means index, it's the homepage.
@@ -129,7 +134,7 @@ def index(): # You can name your function whatever you want.
         posts = all_posts["all_posts"]
     file.close()
 
-    return render_template("index.html", post_data=all_posts, form=post_form())
+    return render_template("index.html", post_data=all_posts, form=post_form(), comment=comment_form())
 
 
 
