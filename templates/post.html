@@ -1,0 +1,67 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--Font Awesome-->
+        <script src="https://kit.fontawesome.com/ba7447c34f.js" crossorigin="anonymous"></script>
+
+    </head>
+    
+    <body>
+ 
+        <a href="{{ url_for('index') }}">Go back home!</a>
+        
+        <section class="posts">
+
+            <a class="stickynote_button_link"><button class="a_post" style="background:{{ post_data.colour }};"">
+                <h3>Alias: {{ post_data.code_name }}</h3>
+                <p>{{ post_data.content }}</p>
+                <p>Date Posted: {{ post_data.date_posted }}</p>
+                <p>{{ post_data.comments|length }} comments</p>
+            </button></a>
+        </section>
+
+            <div class="all_comments">
+                {% if not post_data.comments  %}
+                    <h4>Looks like this post has no comments yet!</h4>
+                    <p>Why not be the first to comment?</p>
+                {% else %}
+
+                {% for comment in post_data.comments | reverse %}
+                        <p class="modal_alias">Alias: {{ comment.code_name }}</p>
+                        <p class="modal_comment">{{ comment.content }}</p>
+                        <p class="modal_date">Date Posted: {{ comment.date_posted }}</p>
+                {% endfor %}
+                
+                {% endif %}
+            </div>
+    
+    
+        <form class="form" action="/comment" method="post">
+            {{ commentform.csrf_token }}
+            <label>Alias:</label><br>
+            {{ commentform.comment_alias(placeholder="Penguin", type="name") }}
+
+            {% for error in commentform.comment_alias.errors %}
+                <li class="errors">{{ error }}</li>
+            {% endfor %}
+
+            </br>
+
+            <label>Content:</label><br>
+            {{ commentform.comment_content(placeholder="You are awesome!") }}
+
+            <ul>
+            {% for error in commentform.comment_content.errors %}
+                <li class="errors">{{ error }}</li>
+            {% endfor %}
+            </ul>
+
+            <input id="submit_button" type="submit" value="Post"/>
+            {{ commentform.post_id(value=post_data.post_id, style='display:none;') }}
+        </form>
+
+
+    </body>
+</html>

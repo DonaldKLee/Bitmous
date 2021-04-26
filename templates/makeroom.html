@@ -1,0 +1,38 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    
+    <body>
+        <h1>Make a Bitmous Room!</h1>
+        <a href="{{ url_for('index') }}">Go back home!</a>
+        
+        <form class="form" action="/makeroom" method="post">
+            {{ form.csrf_token }}
+
+            </br>
+            <label>Topic:</label><br>
+            {{ form.title(placeholder="Kind Message Wall", type="title") }}
+            <p id="alias_length">Min: 2 | Max: 15</p>
+
+            {% for error in form.title.errors %}
+                <li class="errors">{{ error }}</li>
+            {% endfor %}
+
+            </br></br>
+
+            <label>Description:</label><br>
+            {{ form.description(placeholder="Post a kind message here!") }}
+            <p id="content_length">Min: 10 | Max: 150</p>
+
+            <ul>
+            {% for error in form.description.errors %}
+                <li class="errors">{{ error }}</li>
+            {% endfor %}
+            </ul>
+
+            <input id="submit_button" type="submit" value="Create"/>
+        </form>
+    </body>
+</html>

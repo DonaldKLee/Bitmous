@@ -1,0 +1,94 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--Font Awesome-->
+        <script src="https://kit.fontawesome.com/ba7447c34f.js" crossorigin="anonymous"></script>
+
+        <title>{{ room_data.title }}</title>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/room.css') }}">
+    </head>
+    
+    <body>
+        <h1>This is a Bitmous Room!</h1>
+        <a href="{{ url_for('index') }}">Go back home!</a>
+        
+        <h1>Topic: {{ room_data.title }}</h1>
+        <p>Description: {{ room_data.description }}</p>
+        <p>Date Created: {{ room_data.date_posted }}</p>
+  
+        <p>Room Link:</p>
+        <input class="room_link_box" type="text" value=" https://bitmous.donaldklee.repl.co/room/{{ room_data.room_id }}" id="room_link" readonly>
+        <button onclick="copy_room_link()">Copy room link!</button>
+
+
+        <!-- Form -->
+        <form class="form" action="/room_post" method="post">
+            {{ form.csrf_token }}
+
+            <label>Alias:</label><br>
+            {{ form.room_post_alias(placeholder="Spy", label="Hi", type="name", id="alias_form", oninput="posting()") }}
+            
+            <i id="alias_check" class="post_check_mark fas fa-check"></i>
+            <p id="alias_length">Characters: 0 | Min: 2 | Max: 15</p>
+
+            {% for error in form.room_post_alias.errors %}
+                <li class="errors">{{ error }}</li>
+            {% endfor %}
+
+            </br>
+            <label>Content:</label><br>
+            {{ form.room_post_content(placeholder="Stay humble y'all!",label="Hi", id="content_form", oninput="posting()") }}
+            
+            <i id="content_check" class="post_check_mark fas fa-check"></i>
+            <p id="content_length">Characters: 0 | Min: 10 | Max: 150</p>
+            
+            <ul>
+            {% for error in form.room_post_content.errors %}
+                <li class="errors">{{ error }}</li>
+            {% endfor %}
+            </ul>
+            
+            <br>
+
+            {{ form.room_colours(class="radio_colours") }}
+
+            <br>
+            <input id="submit_button" type="submit" value="Post" disabled/>
+            {{ form.room_id(value=room_data.room_id, style='display:none;') }}
+        
+        </form> 
+        <!-- Form ^^^ -->
+
+
+        <section class="posts">
+        {% for post in room_data.posts|reverse %}   
+            <a class="stickynote_button_link" href="/roompost/{{ room_data.room_id }}/{{post.room_post_id}}"><button class="a_post" style="background:{{ post.colour }};" data-toggle="modal" data-target="#post{{ post.post_id }}">
+                
+                <h3>Alias: {{ post.code_name }}</h3>
+                <p>{{ post.content }}</p>
+                <p>Date Posted: {{ post.date_posted }}</p>
+                <p>{{ post.comments|length }} comments</p>
+            </button></a>
+
+        {% endfor %}
+        </section>
+
+    </body>
+
+    <script>
+        function copy_room_link() {
+        var copyText = document.getElementById("room_link");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+
+        }
+    </script>
+    
+    <script type=text/javascript src="{{ url_for('static', filename='javascript/home.js') }}"></script>
+
+</html>

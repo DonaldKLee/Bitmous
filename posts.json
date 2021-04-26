@@ -1,75 +1,13 @@
 {
-    "post_increments": 66,
+    "post_increments": 121,
     "all_posts": [
         {
             "code_name": "DonBot",
-            "content": "This is the first post in Bitmous! - Donald Lee",
-            "date_posted": "04-04-2021 01:34:13 PDT",
-            "post_id": 56,
+            "content": "Bitmous is cool",
+            "date_posted": "04-25-2021 20:30:53 PDT",
+            "post_id": 71,
             "colour": "#7afcff",
             "comments": []
-        },
-        {
-            "code_name": "Tree",
-            "content": "Climate change is real!",
-            "date_posted": "04-04-2021 01:34:50 PDT",
-            "post_id": 57,
-            "colour": "#52f769",
-            "comments": []
-        },
-        {
-            "code_name": "Supporter",
-            "content": "Stop Asian hate crimes!",
-            "date_posted": "04-04-2021 01:35:44 PDT",
-            "post_id": 58,
-            "colour": "#FFFF88",
-            "comments": []
-        },
-        {
-            "code_name": "Supporter",
-            "content": "Black Lives Matter!",
-            "date_posted": "04-04-2021 01:35:58 PDT",
-            "post_id": 59,
-            "colour": "#ff7eb9",
-            "comments": []
-        },
-        {
-            "code_name": "Fruit",
-            "content": "Orange juice is pretty sour...",
-            "date_posted": "04-04-2021 01:36:18 PDT",
-            "post_id": 60,
-            "colour": "#FFA500",
-            "comments": []
-        },
-        {
-            "code_name": "Flower",
-            "content": "Lavender is a pretty cool colour!",
-            "date_posted": "04-04-2021 01:36:32 PDT",
-            "post_id": 61,
-            "colour": "#E6E6FA",
-            "comments": []
-        },
-        {
-            "code_name": "Dog",
-            "content": "Animals are cool!",
-            "date_posted": "04-04-2021 01:43:04 PDT",
-            "post_id": 64,
-            "colour": "#52f769",
-            "comments": []
-        },
-        {
-            "code_name": "Dark",
-            "content": "Dark mode > Light mode!",
-            "date_posted": "04-08-2021 23:23:25 PDT",
-            "post_id": 65,
-            "colour": "#FFFF88",
-            "comments": [
-                {
-                    "code_name": "Darkness",
-                    "content": "AHHAHAHAHAHAHAAHAHAHAHA",
-                    "date_posted": "04-08-2021 23:24:40 PDT"
-                }
-            ]
         }
     ]
 }
