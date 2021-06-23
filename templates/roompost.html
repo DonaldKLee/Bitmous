@@ -1,13 +1,16 @@
 <!DOCTYPE>
 <html>
     <head>
+        <title>Quillity | Room Post </title>
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!--Font Awesome-->
         <script src="https://kit.fontawesome.com/ba7447c34f.js" crossorigin="anonymous"></script>
 
     </head>
-    
+    {% include 'base.html' %}
+    {% block content %}{% endblock %}
     <body>
 
         <a href="{{ url_for('room', room_id=room_id)}}">Go back to Room!</a>

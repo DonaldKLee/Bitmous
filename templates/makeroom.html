@@ -1,9 +1,12 @@
 <!DOCTYPE>
 <html>
     <head>
+        <title>Quillity | Make Room</title>
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    
+    {% include 'base.html' %}
+    {% block content %}{% endblock %}
     <body>
         <h1>Make a Bitmous Room!</h1>
         <a href="{{ url_for('index') }}">Go back home!</a>

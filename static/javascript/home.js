@@ -1,5 +1,6 @@
 window.onload = function() { //Runs posting again if user form does not submit. This makes it so that the green checkmarks validate again
   posting();
+  tag_added();
 };
 
 
@@ -37,5 +38,58 @@ function posting() {
     }
     else{
         post.disabled = true;
+    }
+}
+
+function tag_added() {
+    real_tags_form = document.getElementById("all_tags");
+    var list_tags = real_tags_form.value.split(" ")
+    var tags = []
+    for (i=0; i < list_tags.length; i++) {
+        if (list_tags[i]) {
+            tags.push(list_tags[i])
+        }
+    }
+    // Removes all tags
+    var displayed_tags = document.getElementById("the_tags");
+    for (tag = 0; tag < displayed_tags.childNodes.length; tag++) {
+        tag = -1 // The list decreases everytime it runs, so only half the loop is ran, this prevents that from happening
+        displayed_tags.removeChild(displayed_tags.childNodes[0]);
+    }
+    // Adds all tags
+    if (tags.length) {
+        for (i=0; i < tags.length; i++) {
+            var element = document.createElement("span");
+            element.className = "display_tag_box";
+            var text = document.createTextNode("#" + tags[i] + " ");
+            element.appendChild(text);
+            document.getElementById("the_tags").appendChild(element);
+        }
+    }
+}
+
+function adding_tags() {
+    real_tags_form = document.getElementById("all_tags");
+    var tags = real_tags_form.value.split(" ")
+    tags_form = document.getElementById("make_tag");
+    tags_form.value = tags_form.value.replace(/[^\w\s]/gi, ''); // Removes symbols from input box
+
+    if (tags_form.value.indexOf(' ') >= 0) {
+        console.log(tags);
+        if (tags.includes(tags_form.value.replace(/\s/g, ''))) {
+            console.log("Already in!")
+            tags_form.value = ""
+        }
+        else if (tags.length < 5) {
+            tags_form.value = tags_form.value
+            real_tags_form.value += " " + tags_form.value
+            real_tags_form.value = real_tags_form.value.toLowerCase().trim()
+            tags_form.value = ""
+        }
+        else {
+            tags_form.value = tags_form.value.replace(/\s/g, '')
+            console.log("You can't add anymore tags!");
+        }
+        tag_added()
     }
 }

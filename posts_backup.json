@@ -1,6 +1,78 @@
 {
-    "post_increments": 71,
+    "post_increments": 290,
     "all_posts": [
-        
+        {
+            "code_name": "DonBot",
+            "content": "Bitmous is cool",
+            "date_posted": "04-25-2021 20:30:53 PDT",
+            "post_id": 71,
+            "colour": "#7afcff",
+            "comments": []
+        },
+        {
+            "code_name": "Bob",
+            "content": "Water is nice!",
+            "date_posted": "04-27-2021 20:34:13 PDT",
+            "post_id": 121,
+            "colour": "#7afcff",
+            "comments": []
+        },
+        {
+            "code_name": "Spy",
+            "content": "Trees are good!",
+            "date_posted": "04-27-2021 21:25:44 PDT",
+            "post_id": 133,
+            "colour": "#52f769",
+            "comments": []
+        },
+        {
+            "code_name": "DonBot",
+            "content": "Sushi is good",
+            "date_posted": "04-27-2021 21:26:12 PDT",
+            "post_id": 179,
+            "colour": "#E6E6FA",
+            "comments": []
+        },
+        {
+            "code_name": "Bot",
+            "content": "AHAHHAHAHAHAHHA",
+            "date_posted": "05-03-2021 19:07:27 PDT",
+            "post_id": 198,
+            "colour": "#52f769",
+            "comments": [],
+            "tags": [
+                "obot",
+                "gggg",
+                "fff"
+            ]
+        },
+        {
+            "code_name": "ffffffff",
+            "content": "dddddddddddd",
+            "date_posted": "05-03-2021 19:10:38 PDT",
+            "post_id": 233,
+            "colour": "#FFA500",
+            "comments": [],
+            "tags": [
+                "d"
+            ]
+        },
+        {
+            "code_name": "FCSS",
+            "content": "Have fun studying for AP haha",
+            "date_posted": "05-03-2021 19:31:44 PDT",
+            "post_id": 266,
+            "colour": "#7afcff",
+            "comments": [
+                {
+                    "code_name": "DonBot",
+                    "content": "Thanks! Good luck on your website! You got this!",
+                    "date_posted": "05-03-2021 19:46:07 PDT"
+                }
+            ],
+            "tags": [
+                "#fun"
+            ]
+        }
     ]
 }

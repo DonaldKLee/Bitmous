@@ -32,9 +32,14 @@ def dated_url_for(endpoint, **values):
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+# If you make a custom validation, go to the HTML file and also make it display the error message
 def profanity_check(form, field):
     if profanity.contains_profanity(field.data):
         raise ValidationError("Profanity was detected in your " + str(field.label) + "!")
+def check_tag_limit(form, field):
+    if len(field.data.split(" ")) > 5:
+        raise ValidationError("You can only add a maximum of 5 tags!")
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -44,6 +49,7 @@ class post_form(FlaskForm):
     post_alias = StringField('alias',[validators.Length(min=2, max=15, message="Must be between 2-15 characters!"), profanity_check])
     post_content = TextAreaField('post',[validators.Length(min=10, max=150, message="Must be between 10-150 characters!"), profanity_check],render_kw={"rows": 4, "cols": 50})
     colours = RadioField('', choices=[('#FFFF88','Yellow'),('#ff7eb9','Pink'),('#7afcff', 'Light blue'),('#52f769','Green'),('#E6E6FA','Lavender'),('#FFA500','Orange')], validators=[InputRequired()])
+    tags = StringField('tags',[validators.DataRequired(message="You must enter in at least 1 tag"), profanity_check, check_tag_limit])
 
 class comment_form(FlaskForm):
     comment_alias = StringField('alias',[profanity_check])
@@ -59,6 +65,7 @@ def submit():
 
     code_name = profanity.censor(form.post_alias.data.strip(" "))
     post_content = profanity.censor(form.post_content.data.strip(" "))
+    tags = profanity.censor(form.tags.data.strip(" ")).split(" ")
 
     if form.validate_on_submit():
         code_name = code_name
@@ -78,7 +85,8 @@ def submit():
             "date_posted": post_date,
             "post_id": post_id,
             "colour": post_colour,
-            "comments": []
+            "comments": [],
+            "tags":tags
         }
 
         posts.append(this_post)
