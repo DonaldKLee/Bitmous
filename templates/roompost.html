@@ -5,6 +5,9 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/post.css') }}">
+    
+
         <!--Font Awesome-->
         <script src="https://kit.fontawesome.com/ba7447c34f.js" crossorigin="anonymous"></script>
 
@@ -22,6 +25,7 @@
                 <p>{{ post_data.content }}</p>
                 <p>Date Posted: {{ post_data.date_posted }}</p>
                 <p>{{ post_data.comments|length }} comments</p>
+                <p>Tags:{% for tag in post_data.tags %}<span> #{{ tag }}</span>{% endfor %}</p>
             </button></a>
         </section>
 

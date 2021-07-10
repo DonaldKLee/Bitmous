@@ -69,21 +69,19 @@
 
 
         <section class="posts">
-        {% for post in post_data.all_posts|reverse %}   
+        {% for post in post_data|reverse %}
             <a class="stickynote_button_link" href="/post/{{post.post_id}}"><button class="a_post" style="background:{{ post.colour }};" data-toggle="modal" data-target="#post{{ post.post_id }}">
                 
                 <h3>Alias: {{ post.code_name }}</h3>
                 <p>{{ post.content }}</p>
                 <p>Date Posted: {{ post.date_posted }}</p>
-                <p>{{ post.comments|length }} comments</p>
-
                 <p>Tags:{% for tag in post.tags %}<span> #{{ tag }}</span>{% endfor %}</p>
-
+                <p>{{ post.comments|length }} comments</p>
             </button></a>
-
         {% endfor %}
         </section>
     
+
     </body>
 
 

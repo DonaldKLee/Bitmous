@@ -59,18 +59,24 @@ function tag_added() {
     // Adds all tags
     if (tags.length) {
         for (i=0; i < tags.length; i++) {
-            var element = document.createElement("span");
-            element.className = "display_tag_box";
-            var text = document.createTextNode("#" + tags[i] + " ");
-            element.appendChild(text);
-            document.getElementById("the_tags").appendChild(element);
+            tags_container = document.getElementById("the_tags");
+            tags_container.innerHTML += '<button class="display_tag_box" type="button" onclick=removetag("' + tags[i] + '")>#' + tags[i] + ' <i class="tag_delete fas fa-times"></i></button>';
+            
         }
     }
+}
+
+function removetag(the_tag) {
+    tags_form = document.getElementById("all_tags");
+    tags_form.value = tags_form.value.replace(the_tag, "").trim();
+
+    tag_added()
 }
 
 function adding_tags() {
     real_tags_form = document.getElementById("all_tags");
     var tags = real_tags_form.value.split(" ")
+    tags = tags.filter(item => item);
     tags_form = document.getElementById("make_tag");
     tags_form.value = tags_form.value.replace(/[^\w\s]/gi, ''); // Removes symbols from input box
 
@@ -83,7 +89,7 @@ function adding_tags() {
         else if (tags.length < 5) {
             tags_form.value = tags_form.value
             real_tags_form.value += " " + tags_form.value
-            real_tags_form.value = real_tags_form.value.toLowerCase().trim()
+            real_tags_form.value = real_tags_form.value.toLowerCase().replace(/\s\s+/g, ' ').trim()
             tags_form.value = ""
         }
         else {

@@ -1,12 +1,25 @@
 # Import Flask
 from flask import Flask, render_template, request, url_for, redirect
 import json, os, random
-
 from flask_wtf import FlaskForm
 from wtforms import StringField, validators, TextAreaField, RadioField, ValidationError
 from wtforms.validators import DataRequired, Length, InputRequired
-
 from better_profanity import profanity
+
+
+# MongoDB
+import dns # For mongodb to work, this installs an older version of bson, if version error, uninstall bson/pymongo to get it working again
+import pymongo
+from pymongo import MongoClient
+import os
+# MongoDB ^^^
+
+
+mongo_password = os.environ['mongo_password'] # Virtual Env Variable
+
+client = pymongo.MongoClient("mongodb+srv://DonaldKL:"+ mongo_password +"@cluster0.r5ghf.mongodb.net/Quillity?retryWrites=true&w=majority")
+db = client.Quillity
+
 
 # Python files
 import datafunctions
@@ -52,15 +65,12 @@ class post_form(FlaskForm):
     tags = StringField('tags',[validators.DataRequired(message="You must enter in at least 1 tag"), profanity_check, check_tag_limit])
 
 class comment_form(FlaskForm):
-    comment_alias = StringField('alias',[profanity_check])
-    comment_content = TextAreaField('post',[profanity_check],render_kw={"rows": 4, "cols": 50})
+    comment_alias = StringField('alias',[InputRequired(), profanity_check])
+    comment_content = TextAreaField('post',[InputRequired(), profanity_check],render_kw={"rows": 4, "cols": 50})
     post_id = StringField('id', validators=[InputRequired()])
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-    with open('posts.json', 'r') as file:
-        all_posts = json.load(file)
-    file.close()
     form = post_form() 
 
     code_name = profanity.censor(form.post_alias.data.strip(" "))
@@ -72,39 +82,31 @@ def submit():
         post_content = post_content
         post_date = datafunctions.get_pst_time()
         post_colour = form.colours.data
-        with open('posts.json', 'r') as file:
-            all_posts = json.load(file)
-            posts = all_posts["all_posts"]
-            post_id = all_posts["post_increments"]
-        file.close()
 
-        all_posts["post_increments"] += random.randint(1,50)
+        for increment in db.increments.find({'type': "post_increments"}):
+            post_id = increment['post_increments']
+            new_post_increment = int(post_id) + random.randint(1,50)
+            db.increments.update_one({'type': "post_increments"}, {'$set': {'post_increments': new_post_increment}})
+
         this_post = {
             "code_name": code_name,
             "content": post_content,
             "date_posted": post_date,
-            "post_id": post_id,
+            "post_id": new_post_increment,
             "colour": post_colour,
             "comments": [],
             "tags":tags
         }
+    
+        db.posts.insert_one(this_post)
 
-        posts.append(this_post)
-        with open('posts.json', 'w') as file:
-            json.dump(all_posts, file, indent=4)
-        file.close()
+        return redirect(url_for('post', post_number = new_post_increment))
 
-        return redirect(url_for('post', post_number = post_id))
-
-    return render_template("index.html", post_data=all_posts, form=form, comment=comment_form())
+    posts_json_data = db.posts.find()
+    return render_template("index.html", post_data=posts_json_data, form=form, comment=comment_form())
 
 @app.route('/comment', methods=['GET','POST'])
 def post_comment():
-    with open('posts.json', 'r') as file:
-        all_posts = json.load(file)
-        posts = all_posts["all_posts"]
-
-    file.close()
 
     form = comment_form()
     
@@ -112,7 +114,6 @@ def post_comment():
         code_name = profanity.censor(form.comment_alias.data.strip(" "))
         post_content = profanity.censor(form.comment_content.data.strip(" "))
         post_date = datafunctions.get_pst_time()
-
         post_id = form.post_id.data
 
         comment = {
@@ -121,15 +122,10 @@ def post_comment():
             "date_posted": post_date,
         }
 
-        for post in posts:
-            if str(post_id) == str(post["post_id"]):
-                post["comments"].append(comment)
+        for doc in db.posts.find({'post_id': int(post_id)}):
+            if len(doc) > 0:
+                db.posts.update_one({'post_id': int(post_id)},{'$push': {'comments': comment}})
 
-        with open('posts.json', 'w') as file:
-            json.dump(all_posts, file, indent=4)
-
-        file.close()
-        
         return redirect(url_for('post', post_number = str(post_id)))
     
     else:
@@ -139,25 +135,18 @@ def post_comment():
 # Application routes
 @app.route("/") # / means index, it's the homepage.
 def index(): # You can name your function whatever you want.
-    with open('posts.json', 'r') as file:
-        all_posts = json.load(file)
-        posts = all_posts["all_posts"]
-    file.close()
 
-    return render_template("index.html", post_data=all_posts, form=post_form(), comment=comment_form())
+    posts_json_data = db.posts.find() # Gets all the objects in the posts database
+ 
+    return render_template("index.html", post_data=posts_json_data, form=post_form(), comment=comment_form())
 
 @app.route('/post/<post_number>')
 def post(post_number):
     foundpost = False
-    with open('posts.json', 'r') as file:
-        all_posts = json.load(file)
-        posts = all_posts["all_posts"]
-    
-    for post in posts:
-        if str(post_number) == str(post["post_id"]):
-            thatpost = post
+
+    for thatpost in db.posts.find({'post_id': int(post_number)}):
+        if len(thatpost) > 0:
             foundpost = True
-    file.close()
 
     if foundpost:
         return render_template("post.html", post_data=thatpost, commentform=comment_form())
@@ -175,13 +164,11 @@ def makeroom():
 
 @app.route('/makeroom', methods=['GET','POST'])
 def create_room():
-    with open('rooms.json', 'r') as file:
-        all_rooms = json.load(file)
-        rooms = all_rooms["all_rooms"]
-        beginning = all_rooms["beginning"]
+    for increment in db.increments.find({'type': "room_increments"}):
+        beginning = increment['beginning']
+        new_beginning = int(beginning) + random.randint(1,99)
+        db.increments.update_one({'type': "room_increments"}, {'$set': {'beginning': new_beginning}})
 
-    all_rooms["beginning"] += random.randint(1,50)
-    file.close()
     form = makeroom_form()
 
     if form.validate_on_submit():
@@ -189,7 +176,7 @@ def create_room():
         description = profanity.censor(form.description.data.strip(" "))
         created_date = datafunctions.get_pst_time()
 
-        room_id = str(beginning) + datafunctions.random_char(4)
+        room_id = str(new_beginning) + datafunctions.random_char(4)
 
         room = {
             "title": title,
@@ -200,51 +187,39 @@ def create_room():
             'posts':[],
         }
 
-        all_rooms["all_rooms"].append(room)
+        db.rooms.insert_one(room)
 
-        with open('rooms.json', 'w') as file:
-            json.dump(all_rooms, file, indent=4)
-
-        file.close()
         return redirect(url_for('room', room_id = room_id))
+
     else:
         return render_template("makeroom.html", form=form)
-
 
 @app.route('/room/<room_id>')
 def room(room_id):
     form = room_post_form()
     foundroom = False
-    with open('rooms.json', 'r') as file:
-        all_rooms = json.load(file)
-        rooms = all_rooms["all_rooms"]
-    
-    for room in rooms:
-        if str(room_id) == str(room["room_id"]):
-            thatroom = room
-            foundroom = True
 
-    file.close()
+    for thatroom in db.rooms.find({'room_id': str(room_id)}):
+        if len(thatroom) > 0:
+            foundroom = True
 
     if foundroom:
         return render_template("room.html", room_data=thatroom, form = form)
     else:
         return redirect(url_for('index'))
 
+
+
 class room_post_form(FlaskForm):
     room_post_alias = StringField('alias',[validators.Length(min=2, max=15, message="Must be between 2-15 characters!"), profanity_check])
     room_post_content = TextAreaField('post',[validators.Length(min=10, max=150, message="Must be between 10-150 characters!"), profanity_check],render_kw={"rows": 4, "cols": 50})
     room_colours = RadioField('', choices=[('#FFFF88','Yellow'),('#ff7eb9','Pink'),('#7afcff', 'Light blue'),('#52f769','Green'),('#E6E6FA','Lavender'),('#FFA500','Orange')], validators=[InputRequired()])
+    room_tags = StringField('tags',[validators.DataRequired(message="You must enter in at least 1 tag"), profanity_check, check_tag_limit])
     room_id = StringField('id', validators=[InputRequired()])
 
 @app.route('/room_post', methods=['GET', 'POST']) # Create a post in a room
 def room_post():
-    with open('rooms.json', 'r') as file:
-        all_rooms = json.load(file)
-
-    file.close()
     form = room_post_form() 
-
 
     if form.validate_on_submit():
         code_name = profanity.censor(form.room_post_alias.data.strip(" "))
@@ -252,17 +227,12 @@ def room_post():
         post_date = datafunctions.get_pst_time()
         post_colour = form.room_colours.data
         room_id = form.room_id.data.strip(" ")
+        tags = profanity.censor(form.room_tags.data.strip(" ")).split(" ")
 
-        with open('rooms.json', 'r') as file:
-            all_rooms = json.load(file)
-            rooms = all_rooms["all_rooms"]
-        
-        for room in rooms:
-            if str(room_id) == str(room["room_id"]):
-                room_post_id = room['room_post_increments']
-                room['room_post_increments'] += random.randint(1,50)
-
-        file.close()
+        for thatroom in db.rooms.find({'room_id': str(room_id)}):
+            room_post_increment = thatroom["room_post_increments"]
+            room_post_id = int(room_post_increment) + random.randint(1,50)
+            db.rooms.update_one({'room_id': str(room_id)}, {'$set': {'room_post_increments': room_post_id}})
 
         this_post = {
             "code_name": code_name,
@@ -270,45 +240,35 @@ def room_post():
             "date_posted": post_date,
             "room_post_id": room_post_id,
             "colour": post_colour,
-            "comments": []
+            "comments": [],
+            "tags": tags
         }
 
-        for post in all_rooms['all_rooms']:
-            if str(room_id) == str(post["room_id"]):
-                post["posts"].append(this_post)
+        for thatroom in db.rooms.find({'room_id': str(room_id)}):
+            db.rooms.update_one({'room_id': str(room_id)},{'$push': {'posts': this_post}})
 
-        with open('rooms.json', 'w') as file:
-            json.dump(all_rooms, file, indent=4)
-            
-        file.close()
-
-        return redirect(url_for('room', room_id = room_id))
+        return redirect(url_for('roompost', room_id = room_id, post_id = room_post_id))
     
-    else:
-        return redirect(url_for('index'))
+    else: # If form cannot validate, bring them back to the room
+        room_id = form.room_id.data.strip(" ")
+        for thatroom in db.rooms.find({'room_id': str(room_id)}):
+            return render_template("room.html", room_data=thatroom, form = form)
 
 @app.route('/roompost/<room_id>/<post_id>')
 def roompost(room_id, post_id):
     foundpost = False
 
-    with open('rooms.json', 'r') as file:
-        all_rooms = json.load(file)
-        rooms = all_rooms["all_rooms"]
-    
-    for room in rooms:
-        if str(room_id) == str(room["room_id"]):
-            thatroom = room
-            for post in thatroom["posts"]:
-                if str(post_id) == str(post["room_post_id"]):
-                    thatpost = post
-                    foundpost = True
-
-    file.close()
+    for thatroom in db.rooms.find({'room_id': str(room_id)}):
+        for post in thatroom["posts"]:
+            if int(post['room_post_id']) == int(post_id):
+                thatpost = post
+                foundpost = True
 
     if foundpost:
         return render_template("roompost.html", post_data=thatpost, room_id=room_id, post_id=post_id, commentform=roomcomment_form())
     else:
         return redirect(url_for('room', room_id=room_id, post_id=post_id))
+
 
 class roomcomment_form(FlaskForm):
     comment_alias = StringField('alias',[profanity_check])
@@ -319,11 +279,6 @@ class roomcomment_form(FlaskForm):
 
 @app.route('/roomcomment', methods=['GET','POST'])
 def post_room_comment():
-    with open('rooms.json', 'r') as file:
-        all_rooms = json.load(file)
-        rooms = all_rooms["all_rooms"]
-
-    file.close()
     form = roomcomment_form()
     
     if form.validate_on_submit():
@@ -339,18 +294,14 @@ def post_room_comment():
             "content": post_content,
             "date_posted": post_date,
         }
-
-        for room in rooms:
-            if str(room_id) == str(room["room_id"]):
-                for post in room["posts"]:
-                    if str(post_id) == str(post["room_post_id"]):
-                        post["comments"].append(comment)
-
-        with open('rooms.json', 'w') as file:
-            json.dump(all_rooms, file, indent=4)
-
-        file.close()
         
+        db.rooms.update_one(
+            {'room_id': str(room_id), "posts.room_post_id":int(post_id)},
+            { "$push": 
+                {"posts.$.comments": comment
+                }
+            }
+        )
         return redirect(url_for('roompost', room_id = str(room_id), post_id=str(post_id)))
     
     else:
